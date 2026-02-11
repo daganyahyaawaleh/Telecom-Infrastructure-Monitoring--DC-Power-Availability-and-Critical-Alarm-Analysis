@@ -1,6 +1,31 @@
 ###  DC-Infrastructure-Monitoring-ETL
 End-to-end BI solution: Transforming 20M+ IoT records into actionable maintenance insights using SQL Server, SSIS, and Power BI. DC Voltage Monitoring & Infrastructure Availability
 
+## Project Context & Background
+Infrastructure Monitoring is a critical function for modern telecommunications providers. This project focuses on DC Power Infrastructure, utilizing high-frequency sensor data collected via the SensDesk monitoring platform. 
+
+The project was developed to provide an end-to-end analytical solution for managing a vast network of 146 monitoring sites categorized into four distinct types: GSM, MSAN, Data Centers, and Submarine Cable hubs. With data volumes exceeding 20 Million records, the core challenge was to transform high-frequency IoT sensor logs into strategic maintenance insights.
+
+The complete operational dataset spans from October 2024 to January 2026. However, for the purpose of this portfolio a high-density strategic subset of 5 months (July 2025 – November 2025) was extracted, representing approximately 7.9 Million records.
+
+Reporting to the Maintenance Operations Manager, this comprehensive review evaluates infrastructure performance across several key areas:
+
+## Northstar Metrics & Goals
+
+**Operational Availability**: Maintaining a high uptime standard across all sectors, currently tracked at **99.52%**.
+* **Risk Mitigation**: Utilizing a custom **DC Alarm Impact Score** to shift focus from raw alarm volume to infrastructure criticality.
+* **Infrastructure Health**: Monitoring the **Alarm Rate (currently 0.48%)** to identify sectors needing hardware reinforcement, such as the **North sector (40.1% of alarms)**.
+* **Asset Lifecycle**: Ensuring continuous data lineage during hardware replacements through robust **SCD Type 2 logic** in the data warehouse.
+
+
+---
+
+### Table Relationships & Cardinality:
+- **Fact_Sensor_Alarm ↔ Dim_Site (N:1):** Links every alarm record to its specific site metadata (Sector, Priority, Type) via `SiteKey`.
+- **Fact_Sensor_Alarm ↔ Calendrier (N:1):** Enables Time Intelligence (Q3/Q4 analysis) through a standard date link.
+- **Fact_Sensor_Alarm ↔ Dim_Sensor_Lifecycle (N:1):** Connects raw readings to the hardware asset's service history, ensuring continuity even if a sensor is replaced.
+
+---
 ### Project Overview
 This project is an **End-to-End BI Solution** designed to monitor DC Voltage Sensors across a distributed network of telecommunication sites. It manages the complete data lifecycle, from raw IoT ingestion to high-level strategic visualization.
 
