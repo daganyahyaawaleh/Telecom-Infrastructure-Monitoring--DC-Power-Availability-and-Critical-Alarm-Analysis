@@ -1,22 +1,37 @@
-
+## DC Power Infrastructure Monitoring
+End-to-End BI Solution | 20M+ IoT Records | SQL Server · SSIS · Power BI
 
 ## Project Context & Background
-
-End-to-end BI solution: Transforming 20M+ IoT records into actionable maintenance insights using SQL Server, SSIS, and Power BI. DC Voltage Monitoring & Infrastructure Availability
 
 Infrastructure Monitoring is a critical function for modern telecommunications providers. This project focuses on DC Power Infrastructure, utilizing high-frequency sensor data collected via the SensDesk monitoring platform. 
 
 The project was developed to provide an end-to-end analytical solution for managing a vast network of **134** monitoring **sites** categorized into four distinct types: **GSM**, **MSAN**, **Data Centers**, and **Submarine Cable** hubs. With data volumes exceeding **20 Million records**, the core challenge was to transform high-frequency IoT sensor logs into strategic maintenance insights.
 
-The complete operational dataset spans from **October 2024** to **January 2026**. However, for the purpose of this portfolio a high-density strategic subset of **5 months (July 2025 – November 2025)** was extracted, representing approximately **7.2 Million logs**.
+The complete operational dataset spans from **October 2024** to **January 2026**. However, for the purpose of this portfolio a high-density strategic subset of **5 months (July 2025 – November 2025)** was extracted, representing approximately **7.2 Million records**.
 
 Reporting to the Maintenance Operations Manager, this comprehensive review evaluates infrastructure performance across several key areas:
+
+## Business Context
+
+Telecom infrastructure reliability depends on uninterrupted DC power stability. Sensors report voltage every 5 minutes per site, generating massive volumes of operational logs.
+
+Each alarm represents a voltage breach below the operational threshold (<43V), potentially impacting service continuity.
+
+The challenge:
+
+* High alarm noise
+
+* Hardware replacement over time
+
+* Seasonal stress patterns
+
+* Regional instability shifts
 
 ## Northstar Metrics & Goals
 
 * **Operational Availability**: Maintaining a high uptime standard across all sectors, currently tracked at **99.52%**.
-* **Risk Mitigation**: Utilizing a custom **DC Alarm Impact Score** to shift focus from raw alarm volume to infrastructure criticality.
-* **Infrastructure Health**: Monitoring the **Alarm Rate (currently 0.48%)** to identify sectors needing  reinforcement, such as the **North sector (40.1% of alarms)**.
+* **Risk based maintenance prioritization**: Utilizing a custom **DC Alarm Impact Score** to shift focus from raw alarm volume to infrastructure criticality. By utilizing weighted **Impact Scores**, we identified that high-volume "noise" sites are often less critical than high-impact nodes 
+*  **Sector level vulnerability detection**: Monitoring the **Alarm Rate (currently 0.48%)** to identify sectors needing  reinforcement
 * **Asset Lifecycle**: Ensuring continuous data lineage during sensors replacements through robust **SCD Type 2 logic** in the database.
 * **Data Integrity**: Maintaining a **99.99%** valid record rate after ETL cleaning.
   
