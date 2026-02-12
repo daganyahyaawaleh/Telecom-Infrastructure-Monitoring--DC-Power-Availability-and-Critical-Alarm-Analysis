@@ -1,7 +1,9 @@
-###  DC-Infrastructure-Monitoring-ETL
-End-to-end BI solution: Transforming 20M+ IoT records into actionable maintenance insights using SQL Server, SSIS, and Power BI. DC Voltage Monitoring & Infrastructure Availability
+
 
 ## Project Context & Background
+
+End-to-end BI solution: Transforming 20M+ IoT records into actionable maintenance insights using SQL Server, SSIS, and Power BI. DC Voltage Monitoring & Infrastructure Availability
+
 Infrastructure Monitoring is a critical function for modern telecommunications providers. This project focuses on DC Power Infrastructure, utilizing high-frequency sensor data collected via the SensDesk monitoring platform. 
 
 The project was developed to provide an end-to-end analytical solution for managing a vast network of **134** monitoring **sites** categorized into four distinct types: **GSM**, **MSAN**, **Data Centers**, and **Submarine Cable** hubs. With data volumes exceeding **20 Million records**, the core challenge was to transform high-frequency IoT sensor logs into strategic maintenance insights.
@@ -12,11 +14,12 @@ Reporting to the Maintenance Operations Manager, this comprehensive review evalu
 
 ## Northstar Metrics & Goals
 
-**Operational Availability**: Maintaining a high uptime standard across all sectors, currently tracked at **99.52%**.
+* **Operational Availability**: Maintaining a high uptime standard across all sectors, currently tracked at **99.52%**.
 * **Risk Mitigation**: Utilizing a custom **DC Alarm Impact Score** to shift focus from raw alarm volume to infrastructure criticality.
-* **Infrastructure Health**: Monitoring the **Alarm Rate (currently 0.48%)** to identify sectors needing hardware reinforcement, such as the **North sector (40.1% of alarms)**.
-* **Asset Lifecycle**: Ensuring continuous data lineage during hardware replacements through robust **SCD Type 2 logic** in the database.
+* **Infrastructure Health**: Monitoring the **Alarm Rate (currently 0.48%)** to identify sectors needing  reinforcement, such as the **North sector (40.1% of alarms)**.
+* **Asset Lifecycle**: Ensuring continuous data lineage during sensors replacements through robust **SCD Type 2 logic** in the database.
 * **Data Integrity**: Maintaining a **99.99%** valid record rate after ETL cleaning.
+  
 
 
 
