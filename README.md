@@ -26,8 +26,8 @@ This project analyzes how energy conditions impact **service availability, downt
 
 The SQL queries used to prepare, transform, and analyze the data are organized as follows:
 
-- Data cleaning and preparation queries can be found [here](./sql/01_data_cleaning.sql)
-- Sensor-to-site mapping and SCD Type 2 logic can be found [here](./sql/02_mapping_enrichment.sql)
+- Data cleaning and preparation queries can be found [here](SQL_Scripts/01_create_dim_site.sql)
+- Sensor-to-site mapping  can be found [here](./sql/02_mapping_enrichment.sql)
 - Time-series structuring and pivot logic can be found [here](./sql/03_sensor_data_final.sql)
 - Event detection (AC failures and service events) can be found [here](./sql/04_event_detection.sql)
 - Service incident construction and downtime calculation can be found [here](./sql/05_service_incidents.sql)
