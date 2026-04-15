@@ -1,10 +1,20 @@
 #  Telecom Network Availability & Incident Analysis
 
 ### Operational insights into energy-driven service availability and power-related incidents
-
 ---
+This project presents a Power BI dashboard designed to monitor telecom site energy performance and service availability.
+
+
 
 ## 📌 Project Background
+This project focuses on analyzing telecom network availability from an energy perspective. Telecom sites rely on battery systems to maintain service during power failures, making it essential to understand the relationship between power events and service outages.
+
+A synthetic dataset was generated to simulate realistic conditions, including AC failures, and service interruptions.
+
+The dataset covers 5 sites over a 3-month period with a 5-minute frequency.
+
+The objective is to evaluate service availability, detect incidents, and provide actionable insights into network performance.
+Synthetic data was carefully designed to reflect real operational patterns such as AC failures and battery-driven service continuity.
 
 The reliability of telecom networks heavily depends on the stability of their power systems. In many environments, telecom sites rely on a combination of **AC power (grid)** and **DC battery backup systems** to maintain service continuity.
 
@@ -18,12 +28,8 @@ This project analyzes how energy conditions impact **service availability, downt
 
 This project is inspired by real telecom monitoring operations.
 
-In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
-
+In a real-world environment, I monitor over 150 telecom sites using SensDesk (HW group), analyzing voltage, temperature, and generator systems to ensure service continuity.
 These sensors measure:
-- DC Voltage (-48V systems)
-- Temperature
-- Generator status
 
 Data is collected via SensDesk and exported as monthly CSV files.
 
@@ -33,6 +39,18 @@ Data is collected via SensDesk and exported as monthly CSV files.
 - 20+ million rows historically  
 
 Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
+
+---
+## Business Context
+
+Telecom infrastructure relies heavily on stable power systems to ensure service continuity.
+
+Power failures and battery limitations can lead to service outages, impacting network availability and SLA commitments.
+
+This project simulates a monitoring system used to:
+- Track voltage levels
+- Detect service downtime
+- Measure reliability metrics (MTTR, MTBF)
 
 ---
 
@@ -50,11 +68,55 @@ Generator backup systems were not explicitly modeled. Critical sites(e.g., Data 
 
 This results in approximately:
 
+## Real-World Experience & Data Engineering Context
+
+In addition to this portfolio project, I currently work on real telecom infrastructure monitoring covering more than 150 active sites.
+
+These sites are equipped with HWg sensors monitoring:
+- DC voltage (-48V systems)
+- Temperature
+- Generator (GE) status
+
+All data is centralized through the SensDesk platform, where I configured automated monthly exports in CSV format.
+
+### Data Volume
+
+The real dataset is significantly larger than the one used in this project:
+- ~1.5 million rows per month
+- Over 20 million rows accumulated to date
+
+To handle this scale, I rely on SQL for data processing and transformation.
+
+### Sensor Complexity
+
+One of the main challenges is that:
+- Sensors can be replaced over time
+- A single site may use different sensors across periods
+- Sensor IDs do not directly map to a site permanently
+
+### Solution Implemented
+
+To solve this, I designed a historical mapping model:
+
+1. From the raw fact table, I built a **sensor history table** containing:
+   - Sensor ID
+   - Start date
+   - End date
+
+2. I maintain a **manual mapping table**:
+   - Sensor ID → Site Name
+
+3. By merging both tables, I am able to:
+   - Track which sensor belongs to which site over time
+   - Accurately attribute data to the correct site for any period
+
+This approach ensures data consistency despite sensor changes and enables reliable time-based analysis.
+
 
 
 ---
 
-## 🌟 North Star Metrics
+## 🌟key Metrics
 
 - **Service Availability (North Star)** – The primary indicator of network performance, representing the proportion of time services remain operational.
 
@@ -74,11 +136,13 @@ This results in approximately:
 
 
 
+---
+
 
 <img width="1129" height="452" alt="image" src="https://github.com/user-attachments/assets/4ec0d439-8d56-4b52-af88-4478c5388c45" />
 
 
-
+---
 
 
 The analysis shows that overall network availability remains consistently high across all site types, with most values close to or exceeding the SLA target (99.99%).
@@ -96,6 +160,16 @@ This analysis focuses on energy-driven availability, highlighting the impact of 
 - Overall Availability remains close to SLA targets.
 
 ---
+## Executive Summary
+
+The analysis reveals that network availability is generally high (~99.8%), but service disruptions are concentrated in specific site types, particularly GSM sites.
+
+Key insights:
+- GSM sites contribute the most to service downtime.
+- Voltage drops below the critical threshold (43V) directly correlate with service outages.
+- Some site types do not meet their SLA targets despite high overall availability.
+
+This dashboard enables quick identification of high-risk sites and supports proactive maintenance decisions.
 
 ### 2. Incident Impact
 
@@ -189,14 +263,40 @@ Using SQL window functions:
 Star schema:
 
 - Fact Tables:
-  - sensor_data_final  
+  - sensor_data_final : time-series voltage measurements 
   - service_incidents  
 
 - Dimensions:
   - Dim_Site  
-  - Dim_Date  
+  - Dim_Date
+    
+All fact tables are connected through:
+- Date (Calendar table)
+- SiteID (Site mapping)
+## Data Model
+
+The data model follows a star schema:
+
+- `voltage_data`: time-series voltage measurements
+- `alarms_data`: power outage events
+- `site_type_mapping`: site classification
+- `calendar`: date dimension
+
+
+
+![Data Model](./images/data_model.png)
+
+* Fact Constellation Schema (multi-fact)
 
 ---
+
+## Limitations
+
+- Synthetic dataset
+- No battery capacity or State of Health (SOH) data
+- Generator behavior is not modeled
+
+These limitations simplify the analysis but do not affect the overall insights.
 
 ## 🛠 Tools Used
 
@@ -205,6 +305,14 @@ Star schema:
 - DAX  
 
 ---
+
+## Author
+
+Data Analyst specialized in telecom energy monitoring and performance analysis.
+
+Experienced in managing real-world telecom sites and analyzing voltage, temperature, and generator data using monitoring systems.
+
+ 
 
 ## 📸 Dashboard Preview
 
@@ -246,14 +354,7 @@ Star schema:
 
 ## Project Background
 
-This project focuses on analyzing telecom network availability from an energy perspective. Telecom sites rely on battery systems to maintain service during power failures, making it essential to understand the relationship between power events and service outages.
 
-Due to the lack of accessible real-world telecom datasets, a synthetic dataset was generated to simulate realistic conditions, including AC failures, battery discharge, and service interruptions.
-
-The dataset covers 5 sites over a 3-month period with a 5-minute frequency, resulting in approximately 130,000 records.
-
-The objective is to evaluate service availability, detect incidents, and provide actionable insights into network performance.
-Synthetic data was carefully designed to reflect real operational patterns such as AC failures and battery-driven service continuity.
 
 ## North Star Metric
 
@@ -320,8 +421,5 @@ This approach ensures that each data point is accurately linked to the correct s
 
 
 
-
-
-* Fact Constellation Schema (multi-fact)
 
 
