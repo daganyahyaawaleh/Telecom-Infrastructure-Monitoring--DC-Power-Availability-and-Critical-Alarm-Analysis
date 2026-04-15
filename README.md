@@ -6,7 +6,8 @@ This project presents a Power BI dashboard designed to monitor telecom site ener
 
 
 
-## 📌 Project Background
+##  Project Background
+
 This project focuses on analyzing telecom network availability from an energy perspective. Telecom sites rely on battery systems to maintain service during power failures, making it essential to understand the relationship between power events and service outages.
 
 A synthetic dataset was generated to simulate realistic conditions, including AC failures, and service interruptions.
@@ -22,118 +23,94 @@ In real-world operations, a site does not immediately go down during a power fai
 
 This project analyzes how energy conditions impact **service availability, downtime, and network performance**.
 
+
+The SQL queries used to prepare, transform, and analyze the data are organized as follows:
+
+- Data cleaning and preparation queries can be found [here](./sql/01_data_cleaning.sql)
+- Sensor-to-site mapping and SCD Type 2 logic can be found [here](./sql/02_mapping_enrichment.sql)
+- Time-series structuring and pivot logic can be found [here](./sql/03_sensor_data_final.sql)
+- Event detection (AC failures and service events) can be found [here](./sql/04_event_detection.sql)
+- Service incident construction and downtime calculation can be found [here](./sql/05_service_incidents.sql)
+
+These queries demonstrate the end-to-end transformation from raw IoT sensor data to actionable business insights.
+
 ---
 
-## 🌍 Real-World Context
+##  Real-World Context
 
 This project is inspired by real telecom monitoring operations.
 
 In a real-world environment, I monitor over 150 telecom sites using SensDesk (HW group), analyzing voltage, temperature, and generator systems to ensure service continuity.
-These sensors measure:
 
-Data is collected via SensDesk and exported as monthly CSV files.
 
-### Data Scale (Production)
 
-- ~1.5 million rows per month  
-- 20+ million rows historically  
-
-Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
-
----
-## Business Context
-
-Telecom infrastructure relies heavily on stable power systems to ensure service continuity.
-
-Power failures and battery limitations can lead to service outages, impacting network availability and SLA commitments.
-
-This project simulates a monitoring system used to:
-- Track voltage levels
-- Detect service downtime
-- Measure reliability metrics (MTTR, MTBF)
-
----
-
-## 📊 Dataset Description
+##  Dataset Description
 
 To simulate realistic telecom conditions, a synthetic dataset was generated:
 
-- 5 telecom sites (GSM, MSAN, Data Center, Submarine)  
+- 5 telecom sites (RAN , CO , Data Center, Submarine)  
 - 3-month period  
 - 5-minute frequency
 - DC Voltage
 - AC Status
+## ⚡ Technical Insight (Energy Layer)
+
+- **Low Voltage Disconnect (LVD)**: Service considered down when DC voltage < 43V  
+- **Floating Voltage**: Normal battery voltage ~53–54V 
   
 Generator backup systems were not explicitly modeled. Critical sites(e.g., Data Centers, Submarine) are assumed to have generator support.
 
 This results in approximately:
 
-## Real-World Experience & Data Engineering Context
+---
+## key Metrics
 
-In addition to this portfolio project, I currently work on real telecom infrastructure monitoring covering more than 150 active sites.
+The primary metric of this project is **Service Availability (%)**.
 
-These sites are equipped with HWg sensors monitoring:
-- DC voltage (-48V systems)
-- Temperature
-- Generator (GE) status
+- **Service Availability (North Star)** – Focus on the overall percentage of time telecom services remain operational, based on energy conditions (DC voltage threshold). This is the primary indicator of network reliability and user experience.
 
-All data is centralized through the SensDesk platform, where I configured automated monthly exports in CSV format.
+- **Incident Analysis** – Monitoring the number of service incidents and their frequency to understand how often disruptions occur across sites.
 
-### Data Volume
+- **Recovery Performance (MTTR)** – Evaluating how quickly the network recovers from outages by analyzing the average duration of service incidents.
 
-The real dataset is significantly larger than the one used in this project:
-- ~1.5 million rows per month
-- Over 20 million rows accumulated to date
+- **Network Stability (MTBF)** – Measuring the time between failures to assess the overall stability and robustness of the infrastructure.
 
-To handle this scale, I rely on SQL for data processing and transformation.
+- **Downtime Impact** – Analyzing total downtime duration across sites and site types to identify the most critical areas affecting service continuity.
 
-### Sensor Complexity
+- **Site-Type Performance** – Comparing availability and downtime across different telecom site types (RAN, CO, Data Center, Submarine) to identify structural performance differences.
+  ---
 
-One of the main challenges is that:
-- Sensors can be replaced over time
-- A single site may use different sensors across periods
-- Sensor IDs do not directly map to a site permanently
+  
+## 📊 Dataset Structure and ERD (Entity Relationship Diagram) 
 
-### Solution Implemented
+The project is based on a time-series dataset (`sensor_data_final`) capturing DC voltage and AC status at 5-minute intervals across telecom sites.
 
-To solve this, I designed a historical mapping model:
+This dataset is enriched with historical sensor-to-site mapping (SCD Type 2) and transformed into event and incident tables to support availability analysis.
 
-1. From the raw fact table, I built a **sensor history table** containing:
-   - Sensor ID
-   - Start date
-   - End date
+*Fact Constellation Schema (multi-fact)*
 
-2. I maintain a **manual mapping table**:
-   - Sensor ID → Site Name
 
-3. By merging both tables, I am able to:
-   - Track which sensor belongs to which site over time
-   - Accurately attribute data to the correct site for any period
 
-This approach ensures data consistency despite sensor changes and enables reliable time-based analysis.
 
 
 
 ---
 
-## 🌟key Metrics
-
-- **Service Availability (North Star)** – The primary indicator of network performance, representing the proportion of time services remain operational.
-
-- **Incident Analysis** – Monitoring the number and frequency of service disruptions.
-
-- **Recovery Performance (MTTR)** – Measuring how quickly the network recovers from outages.
-
-- **Network Stability (MTBF)** – Evaluating time between failures.
-
-- **Downtime Impact** – Analyzing total service interruption duration.
-
-- **Site-Type Performance** – Comparing performance across GSM, MSAN, Data Center, and Submarine sites.
-
----
 
 ## 📊 Executive Summary
 
+The analysis reveals that network availability is generally high (~99.8%), but service disruptions are concentrated in specific site types, particularly RAN sites.
+
+
+The analysis shows that overall network availability remains consistently high across all site types, with most values close to or exceeding the SLA target (99.99%).
+
+However, RAN sites exhibit slightly lower availability compared to other site types, particularly in February, indicating higher sensitivity to power-related disruptions.
+
+Data Centers and Submarine sites demonstrate near-perfect availability, reflecting stronger resilience, likely due to more robust energy backup systems.
+
+Overall, while the network performs well, performance is not uniform, and certain site types represent higher operational risk.
+
+This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
 
 
 ---
@@ -143,33 +120,17 @@ This approach ensures data consistency despite sensor changes and enables reliab
 
 
 ---
+Key insights:
+- GSM sites contribute the most to service downtime.
+- Voltage drops below the critical threshold (43V) directly correlate with service outages.
+- Some site types do not meet their SLA targets despite high overall availability.
 
-
-The analysis shows that overall network availability remains consistently high across all site types, with most values close to or exceeding the SLA target (99.99%).
-
-However, GSM sites exhibit slightly lower availability compared to other site types, particularly in February, indicating higher sensitivity to power-related disruptions.
-
-Data Centers and Submarine sites demonstrate near-perfect availability, reflecting stronger resilience, likely due to more robust energy backup systems.
-
-Overall, while the network performs well, performance is not uniform, and certain site types represent higher operational risk.
-
-This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
 
 
 
 - Overall Availability remains close to SLA targets.
 
 ---
-## Executive Summary
-
-The analysis reveals that network availability is generally high (~99.8%), but service disruptions are concentrated in specific site types, particularly GSM sites.
-
-Key insights:
-- GSM sites contribute the most to service downtime.
-- Voltage drops below the critical threshold (43V) directly correlate with service outages.
-- Some site types do not meet their SLA targets despite high overall availability.
-
-This dashboard enables quick identification of high-risk sites and supports proactive maintenance decisions.
 
 ### 2. Incident Impact
 
@@ -356,25 +317,7 @@ Experienced in managing real-world telecom sites and analyzing voltage, temperat
 
 
 
-## North Star Metric
 
-The primary metric of this project is **Service Availability (%)**.
-
-- **Service Availability** – Focus on the overall percentage of time telecom services remain operational, based on energy conditions (DC voltage threshold). This is the primary indicator of network reliability and user experience.
-
-
-Supporting metrics were developed to explain and contextualize availability:
-
-
-- **Incident Analysis** – Monitoring the number of service incidents and their frequency to understand how often disruptions occur across sites.
-
-- **Recovery Performance (MTTR)** – Evaluating how quickly the network recovers from outages by analyzing the average duration of service incidents.
-
-- **Network Stability (MTBF)** – Measuring the time between failures to assess the overall stability and robustness of the infrastructure.
-
-- **Downtime Impact** – Analyzing total downtime duration across sites and site types to identify the most critical areas affecting service continuity.
-
-- **Site-Type Performance** – Comparing availability and downtime across different telecom site types (GSM, MSAN, Data Center, Submarine) to identify structural performance differences.
 
 
 ## Real-World Context
@@ -415,6 +358,56 @@ This approach ensures that each data point is accurately linked to the correct s
 
 
 
+### Data Scale (Production)
+
+- ~1.5 million rows per month  
+- 20+ million rows historically  
+
+Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
+
+## Real-World Experience & Data Engineering Context
+
+In addition to this portfolio project, I currently work on real telecom infrastructure monitoring covering more than 150 active sites.
+
+These sites are equipped with HWg sensors monitoring:
+- DC voltage (-48V systems)
+- Temperature
+- Generator (GE) status
+
+
+
+### Data Volume
+
+The real dataset is significantly larger than the one used in this project:
+- ~1.5 million rows per month
+- Over 20 million rows accumulated to date
+
+To handle this scale, I rely on SQL for data processing and transformation.
+
+### Sensor Complexity
+
+One of the main challenges is that:
+- Sensors can be replaced over time
+- A single site may use different sensors across periods
+- Sensor IDs do not directly map to a site permanently
+
+### Solution Implemented
+
+To solve this, I designed a historical mapping model:
+
+1. From the raw fact table, I built a **sensor history table** containing:
+   - Sensor ID
+   - Start date
+   - End date
+
+2. I maintain a **manual mapping table**:
+   - Sensor ID → Site Name
+
+3. By merging both tables, I am able to:
+   - Track which sensor belongs to which site over time
+   - Accurately attribute data to the correct site for any period
+
+This approach ensures data consistency despite sensor changes and enables reliable time-based analysis.
 
 
 
