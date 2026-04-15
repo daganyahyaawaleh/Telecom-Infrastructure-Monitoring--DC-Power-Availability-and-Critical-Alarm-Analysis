@@ -27,10 +27,10 @@ This project analyzes how energy conditions impact **service availability, downt
 The SQL queries used to prepare, transform, and analyze the data are organized as follows:
 
 - Data cleaning and preparation queries can be found [here](SQL_Scripts/01_create_dim_site.sql)
-- Sensor-to-site mapping  can be found [here](./sql/02_mapping_enrichment.sql)
-- Time-series structuring and pivot logic can be found [here](./sql/03_sensor_data_final.sql)
-- Event detection (AC failures and service events) can be found [here](./sql/04_event_detection.sql)
-- Service incident construction and downtime calculation can be found [here](./sql/05_service_incidents.sql)
+- Sensor-to-site mapping  can be found [here](.SQL_Scripts/02_mapping_clean.sql)
+- Time-series structuring and pivot logic can be found [here](.SQL_Scripts/03_sensor_data_final.sql)
+- Event detection (AC failures and service events) can be found [here](.SQL_Scripts/04_alarms_DataorEvent_Detection.sql)
+- Service incident construction and downtime calculation can be found [here](.SQL_Scripts/05_service_incidents.sql)
 
 These queries demonstrate the end-to-end transformation from raw IoT sensor data to actionable business insights.
 
