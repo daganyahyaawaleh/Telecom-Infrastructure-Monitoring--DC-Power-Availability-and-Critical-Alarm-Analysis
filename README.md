@@ -66,7 +66,7 @@ The dataset reflects real operational patterns such as:
 
 This results in approximately **~388,800 time-series records**.
 
-##  Technical Insight (Energy Layer)
+##  Technical Insight 
 
 - **Low Voltage Disconnect (LVD)** → service considered down when DC voltage < 43V  
 - **Floating Voltage** → normal system voltage ~53–54V  
