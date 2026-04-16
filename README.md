@@ -145,6 +145,9 @@ The analysis highlights significant differences in performance and resilience ac
 
 <img width="901" height="331" alt="image" src="https://github.com/user-attachments/assets/2f85d4f6-690e-4d88-ab14-39e19416e40c" />
 
+**MainsFail** → AC power interruptions (grid failure events)  
+
+**Incident** → service outages occurring when DC voltage drops below the operational threshold (43V)
 
  1. RAN Sites
 
