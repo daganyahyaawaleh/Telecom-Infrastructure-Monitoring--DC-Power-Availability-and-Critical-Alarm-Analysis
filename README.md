@@ -4,25 +4,16 @@
 ---
 This project presents a Power BI dashboard designed to monitor telecom site energy performance and service availability.
 
-
+---
 
 ##  Project Background
 
-This project focuses on analyzing telecom network availability from an energy perspective. Telecom sites rely on battery systems to maintain service during power failures, making it essential to understand the relationship between power events and service outages.
+The reliability of telecom networks heavily depends on the stability of their power systems. In many environments, telecom sites rely on rectifiers to convert AC grid power into stable DC output, ensuring service continuity making it essential to understand the relationship between power events and service outages.
 
-A synthetic dataset was generated to simulate realistic conditions, including AC failures, and service interruptions.
-
-The dataset covers 5 sites over a 3-month period with a 5-minute frequency.
-
-The objective is to evaluate service availability, detect incidents, and provide actionable insights into network performance.
-Synthetic data was carefully designed to reflect real operational patterns such as AC failures and battery-driven service continuity.
-
-The reliability of telecom networks heavily depends on the stability of their power systems. In many environments, telecom sites rely on a combination of **AC power (grid)** and **DC battery backup systems** to maintain service continuity.
-
-In real-world operations, a site does not immediately go down during a power failure. Instead, battery systems sustain the service until a critical voltage threshold is reached.
+In real-world operations, a site does not immediately go down during a power failure. Instead, battery systems sustain the service until a critical voltage threshold is reached. Generator backup systems were not explicitly modeled. Critical sites(e.g., Data Centers, Submarine) are assumed to have generator support.
 
 This project analyzes how energy conditions impact **service availability, downtime, and network performance**.
-
+The objective is to evaluate service availability, detect incidents, and provide actionable insights into network performance.
 
 The SQL queries used to prepare, transform, and analyze the data are organized as follows:
 
@@ -34,36 +25,6 @@ The SQL queries used to prepare, transform, and analyze the data are organized a
 
 These queries demonstrate the end-to-end transformation from raw IoT sensor data to actionable business insights.
 
----
-
-##  Real-World Context
-
-This project is inspired by real telecom monitoring operations.
-
-In a real-world environment, I monitor over 150 telecom sites using SensDesk (HW group), analyzing voltage, temperature, and generator systems to ensure service continuity.
-
-
-
-##  Dataset Description
-
-To simulate realistic telecom conditions, a synthetic dataset was generated:
-
-- 5 telecom sites (RAN , CO , Data Center, Submarine)  
-- 3-month period  
-- 5-minute frequency
-- DC Voltage
-- AC Status
-- 
-##  Technical Insight (Energy Layer)
-
-- **Low Voltage Disconnect (LVD)**: Service considered down when DC voltage < 43V  
-- **Floating Voltage**: Normal battery voltage ~53–54V 
-  
-Generator backup systems were not explicitly modeled. Critical sites(e.g., Data Centers, Submarine) are assumed to have generator support.
-
-This results in approximately:
-
----
 ## key Metrics
 
 The primary metric of this project is **Service Availability (%)**.
@@ -76,13 +37,63 @@ The primary metric of this project is **Service Availability (%)**.
 
 - **Network Stability (MTBF)** – Measuring the time between failures to assess the overall stability and robustness of the infrastructure.
 
-- **Downtime Impact** – Analyzing total downtime duration across sites and site types to identify the most critical areas affecting service continuity.
+- **Downtime Impact** – Analyzing total downtime duration across sites and site types to identify the most critical areas affecting service continuity
+- - **Site-Type Performance** – Comparing availability and downtime across different telecom site types (RAN, CO, Data Center, Submarine) to identify structural performance differences.
 
-- **Site-Type Performance** – Comparing availability and downtime across different telecom site types (RAN, CO, Data Center, Submarine) to identify structural performance differences.
-  ---
+---
+
+##  Real-World Context
+
+This project is inspired by real telecom monitoring operations.
+
+In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
+
+These sensors measure:
+- DC Voltage (-48V systems)
+- Temperature
+- Generator status etc..
+
+
+### Data Scale (Production)
+
+- ~1.5 million rows per month ans still growing
+- 20+ million rows historically  
+
+Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
+
+---
+
+## Dataset Description
+
+A synthetic dataset was created to simulate realistic telecom conditions:
+
+- 5 telecom sites (**RAN, CO, Data Center, Submarine**)  
+- 3-month period  
+- 5-minute frequency  
+- **AC Status (0/1)** → indicates grid power availability  
+- **DC Voltage** 
+
+The dataset reflects real operational patterns such as:
+- AC failures  
+- battery-supported service continuity  
+- service interruptions triggered by voltage drops  
+
+This results in approximately **~388,800 time-series records**.
+
+##  Technical Insight (Energy Layer)
+
+- **Low Voltage Disconnect (LVD)** → service considered down when DC voltage < 43V  
+- **Floating Voltage** → normal system voltage ~53–54V  
+
+Not all AC failures lead to service outages, thanks to battery backup systems.
+
+
+
+---
+
 
   
-## 📊 Dataset Structure and ERD (Entity Relationship Diagram) 
+## Dataset Structure and ERD (Entity Relationship Diagram) 
 
 The project is based on a time-series dataset (`sensor_data_final`) capturing DC voltage and AC status at 5-minute intervals across telecom sites.
 
@@ -98,54 +109,88 @@ Images/Dataset structure and ERD.PNG
 ---
 
 
-## 📊 Executive Summary
-
-The analysis reveals that network availability is generally high (~99.8%), but service disruptions are concentrated in specific site types, particularly RAN sites.
+##  Executive Summary
 
 
-The analysis shows that overall network availability remains consistently high across all site types, with most values close to or exceeding the SLA target (99.99%).
+The network maintains a **high level of availability (~99.98%)** across all site types, indicating strong overall performance.
 
-However, RAN sites exhibit slightly lower availability compared to other site types, particularly in February, indicating higher sensitivity to power-related disruptions.
+However, performance is not uniform:
 
-Data Centers and Submarine sites demonstrate near-perfect availability, reflecting stronger resilience, likely due to more robust energy backup systems.
+- **RAN sites show the lowest availability**, particularly in February, highlighting higher sensitivity to power-related disruptions  
+- **Data Center and Submarine sites maintain near-perfect availability**, reflecting stronger resilience  
+- **CO sites show stable performance**, with slight improvement over time
 
-Overall, while the network performs well, performance is not uniform, and certain site types represent higher operational risk.
-
-This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
-
+While the network is globally stable, **availability differences across site types reveal structural weaknesses**, with RAN infrastructure being the most impacted.
+- This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
 
 ---
 
 
-<img width="1129" height="452" alt="image" src="https://github.com/user-attachments/assets/4ec0d439-8d56-4b52-af88-4478c5388c45" />
-
-
----
-Key insights:
-- GSM sites contribute the most to service downtime.
-- Voltage drops below the critical threshold (43V) directly correlate with service outages.
-- Some site types do not meet their SLA targets despite high overall availability.
+<img width="1099" height="409" alt="image" src="https://github.com/user-attachments/assets/335b1d6e-348f-4dae-8bcb-ee01dc054808" />
 
 
 
 
-- Overall Availability remains close to SLA targets.
+
+GSM sites contribute the most to service downtime.
+Voltage drops below the critical threshold (43V) directly correlate with service outages.
+Some site types do not meet their SLA targets despite high overall availability.
+Overall Availability remains close to SLA targets.
 
 ---
 ## Deep Dive Analysis
 
-### 1. Availability by Site Type
-| | |
-|---|---|
-| ![](<img width="688" height="297" alt="image" src="https://github.com/user-attachments/assets/a46e7218-2efb-4d0d-a1fe-61dbca8e0ba7" />
-) | ![](<img width="602" height="297" alt="image" src="https://github.com/user-attachments/assets/0db42df7-cd0f-44cd-9356-637eb56aa5ff" />
-) |
-| ![](<img width="656" height="277" alt="image" src="https://github.com/user-attachments/assets/4ebcea7b-178a-4869-b9ac-7f290e1a946d" />
-) | ![](<img width="612" height="269" alt="image" src="https://github.com/user-attachments/assets/ab59ba06-3087-4a6e-a4ea-4a379eaf721f" />
-) |
+### 1 Site-Level Performance & Resilience Analysis
+The analysis highlights significant differences in performance and resilience across site types.
+
+<img width="901" height="331" alt="image" src="https://github.com/user-attachments/assets/2f85d4f6-690e-4d88-ab14-39e19416e40c" />
 
 
-### 2. Incident Impact and Energy Resilience 
+ 1. RAN Sites
+
+RAN sites (SITE_GSM_01 and SITE_GSM_02) contribute the **majority of downtime** (1.08h and 0.83h)
+They also have the **highest number of incidents (4 each)**
+Although both RAN sites have the same number of incidents, one site experiences longer outage durations.
+
+This suggests differences in incident recovery conditions, which may be related to:
+- energy system performance (battery behavior)
+- site load conditions
+- operational response time
+
+ This indicates that performance degradation is not only driven by failure frequency, but also by recovery efficiency.
+
+
+ 2. CO Sites: 
+
+CO sites show **moderate downtime (0.42h)** and fewer incidents (2)
+**Resilience is higher (~60%)**, indicating better ability to absorb AC failures without impacting service
+
+This suggests stronger energy backup performance compared to RAN sites.
+
+ 3. Critical Infrastructure: High Stability but Strict SLA Sensitivity
+
+Data Center and Submarine sites show **very low downtime (0.08h – 0.17h)**
+Availability is close to or at **100%**
+Despite strong performance, these sites  still fall below SLA due to **very strict availability requirements**
+
+<img width="874" height="174" alt="image" src="https://github.com/user-attachments/assets/8824d091-4ea7-49a0-af75-c4240d99aa9d" />
+
+This indicates that SLA breaches are not only driven by downtime volume, but also by strict SLA thresholds on critical sites
+
+### 2. Downtime Distribution
+
+- **GSM sites contribute the majority of downtime**.
+- Other site types show minimal impact.
+- This indicates uneven infrastructure resilience.
+  
+  <img width="623" height="251" alt="image" src="https://github.com/user-attachments/assets/fc5ba5e5-c5c5-44dc-a73d-859b8317cddc" />
+
+---
+
+### 3. Incident Frequency vs Downtime Impact
+
+Incident count alone does not fully explain service performance. Some sites are affected by a higher number of incidents, while others experience fewer but more impactful outages.
+Combining Incident Count, MTTR, and Downtime provides a more complete view of operational risk.
 
 - A total of **13 service incidents** were detected.
 - Most incidents are **short in duration**, limiting their impact.
@@ -154,42 +199,35 @@ Key insights:
 The analysis shows that resilience to power failures varies significantly across site types.
 
 - RAN sites (radio access) show lower resilience (~43%), meaning a large proportion of AC failures result in service outages  
-- Core/CO sites show higher resilience (~60%), indicating better ability to absorb power disruptions  
-
-This suggests that radio sites are more dependent on battery performance and are more vulnerable to energy-related service interruptions.
+- Core/CO sites show higher resilience (~60%), indicating better ability to absorb power disruptions
+- This suggests that radio sites are more dependent on battery performance and are more vulnerable to energy-related service interruptions.
 - 
 <img width="497" height="94" alt="image" src="https://github.com/user-attachments/assets/42ce480f-aab7-4e81-a56e-28f361dce056" />
 
 ---
 
-### 3. Downtime Distribution
+- ## Key Takeaways
 
-- **GSM sites contribute the majority of downtime**.
-- Other site types show minimal impact.
-- This indicates uneven infrastructure resilience.
+- The network shows high overall availability (99.98%), but performance is not uniform across site types  
+- RAN sites are the most vulnerable, contributing the majority of downtime and showing lower resilience to power failures  
+- Incident frequency alone does not explain performance, outage duration (MTTR) is a key driver of availability  
+- A small number of sites drive most service impact, indicating performance concentration rather than widespread issues  
+- Critical sites (Data Center, Submarine) are highly stable, with only short transient outages, reflecting strong infrastructure resilience  
+- Not all SLA breaches are critical — some are caused by strict SLA thresholds rather than significant downtime
+- 
+ ## Recommendations
+
+- **Prioritize RAN sites** for performance improvement, as they represent the main source of downtime  
+- Improve **battery performance and energy backup systems** to reduce service impact during AC failures  
+- Focus on reducing **MTTR (incident duration)** rather than only incident frequency  
+- Implement **targeted maintenance strategies** on underperforming sites instead of network-wide actions  
+- Introduce **SLA severity classification** to distinguish between minor deviations and critical failures  
+- Enhance monitoring of energy systems to better anticipate and prevent service outages
   
-  <img width="623" height="251" alt="image" src="https://github.com/user-attachments/assets/fc5ba5e5-c5c5-44dc-a73d-859b8317cddc" />
-
-
 ---
 
-### 4. SLA Performance
 
-- Not all sites meet their SLA targets.
-- A small number of sites drive SLA breaches.
-- Targeted improvements could significantly enhance performance.
-
----
-
-### 5. Key Takeaways
-
-- The network is globally stable but not uniformly reliable.
-- Energy systems play a critical role in service continuity.
-- Improving a few critical sites can significantly improve SLA compliance.
-
----
-
-## ⚙️ Data Transformation & Methodology
+##  Data Transformation & Methodology
 
 ### 1. Data Cleaning
 
@@ -198,7 +236,7 @@ This suggests that radio sites are more dependent on battery performance and are
 - Handling missing values  
 - Filtering irrelevant sensors  
 
----
+
 
 ### 2. Sensor-to-Site Mapping (SCD Type 2)
 
@@ -206,77 +244,46 @@ This suggests that radio sites are more dependent on battery performance and are
 - Handles sensor replacement over time  
 - Ensures correct site attribution  
 
----
+
 
 ### 3. Data Structuring (Pivot)
 
 Sensor data transformed into:
 
 
-
----
-
 ### 4. Event Detection
 
-Using SQL window functions:
+MainsFail → AC status changes from 1 to 0
+MainsRestore → AC status changes from 0 to 1
+ServiceDown → DC voltage drops below 43V
+ServiceRestored → DC voltage returns above threshold
 
-- MainsFail  
-- MainsRestore  
-- ServiceDown (DC < 43V)  
-- ServiceRestored  
-
----
+This step converts raw signals into meaningful operational events.
 
 ### 5. Incident Construction
 
-- Grouping ServiceDown → ServiceRestored  
-- Calculating duration  
-- Creating `service_incidents` table  
+Service incidents are built by grouping events:
 
----
+Each incident starts at ServiceDown
+Ends at ServiceRestored
+Duration is calculated in hours
+
+This results in an incident-level table, which is used as the primary source for downtime calculations.
 
 ### 6. KPI Calculation
 
-- Availability (%)  
-- MTTR  
-- MTBF  
-- Incident Count  
+All business metrics are derived from the incident and time-series data:
 
----
+Availability (%) → based on downtime vs observed time
+MTTR → average incident duration
+MTBF → time between incidents
+Incident Count → number of outages
 
-### 7. Data Model
-
-Star schema:
-
-- Fact Tables:
-  - sensor_data_final : time-series voltage measurements 
-  - service_incidents  
-
-- Dimensions:
-  - Dim_Site  
-  - Dim_Date
-    
-All fact tables are connected through:
-- Date (Calendar table)
-- SiteID (Site mapping)
-## Data Model
-
-The data model follows a star schema:
-
-- `voltage_data`: time-series voltage measurements
-- `alarms_data`: power outage events
-- `site_type_mapping`: site classification
-- `calendar`: date dimension
+This ensures accurate and reliable performance measuremen  
 
 
 
-![Data Model](./images/data_model.png)
-
-* Fact Constellation Schema (multi-fact)
-
----
-
-## Limitations
+### Limitations
 
 - Synthetic dataset
 - No battery capacity or State of Health (SOH) data
@@ -284,7 +291,7 @@ The data model follows a star schema:
 
 These limitations simplify the analysis but do not affect the overall insights.
 
-## 🛠 Tools Used
+### Tools Used
 
 - SQL Server (SSMS)  
 - Power BI  
@@ -292,20 +299,14 @@ These limitations simplify the analysis but do not affect the overall insights.
 
 ---
 
-## Author
+### Author
 
 Data Analyst specialized in telecom energy monitoring and performance analysis.
 
-Experienced in managing real-world telecom sites and analyzing voltage, temperature, and generator data using monitoring systems.
 
- 
-
-
-
-## 🚀 Future Improvements
+### Future Improvements
 
 - Integration of real telecom datasets  
-- Advanced KPIs (Resilience, SLA Compliance)  
 - Battery autonomy analysis  
 
 ---
@@ -314,124 +315,6 @@ Experienced in managing real-world telecom sites and analyzing voltage, temperat
 
 
 
-
-
-
-## Real-World Context
-
-This project is inspired by real-world telecom monitoring operations.
-
-In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
-
-These sensors track key operational parameters such as:
-- DC Voltage (-48V systems)
-- Temperature
-- Generator status
-
-Data is collected through SensDesk and exported as monthly CSV files for analysis.
-
-## Data Scale
-
-In production environments, the data volume is significant:
-
-- ~1.5 million rows per month
-- 20+ million rows historically
-
-This requires efficient data processing and modeling techniques, primarily using SQL.
-
-## Handling Sensor Changes (SCD Type 2)
-
-A key challenge in telecom monitoring is that sensors can be replaced over time while the site remains the same.
-
-To ensure data consistency, a Slowly Changing Dimension (SCD Type 2) approach was implemented:
-
-- A historical sensor table was created with start and end dates
-- A mapping table (Sensor ID → Site) was maintained
-- Time-based joins were used to associate each measurement with the correct site
-
-This approach ensures that each data point is accurately linked to the correct site, even when sensors change over time.
-
-
-
-
-
-### Data Scale (Production)
-
-- ~1.5 million rows per month  
-- 20+ million rows historically  
-
-Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
-
-## Real-World Experience & Data Engineering Context
-
-In addition to this portfolio project, I currently work on real telecom infrastructure monitoring covering more than 150 active sites.
-
-These sites are equipped with HWg sensors monitoring:
-- DC voltage (-48V systems)
-- Temperature
-- Generator (GE) status
-
-
-
-### Data Volume
-
-The real dataset is significantly larger than the one used in this project:
-- ~1.5 million rows per month
-- Over 20 million rows accumulated to date
-
-To handle this scale, I rely on SQL for data processing and transformation.
-
-### Sensor Complexity
-
-One of the main challenges is that:
-- Sensors can be replaced over time
-- A single site may use different sensors across periods
-- Sensor IDs do not directly map to a site permanently
-
-### Solution Implemented
-
-To solve this, I designed a historical mapping model:
-
-1. From the raw fact table, I built a **sensor history table** containing:
-   - Sensor ID
-   - Start date
-   - End date
-
-2. I maintain a **manual mapping table**:
-   - Sensor ID → Site Name
-
-3. By merging both tables, I am able to:
-   - Track which sensor belongs to which site over time
-   - Accurately attribute data to the correct site for any period
-
-This approach ensures data consistency despite sensor changes and enables reliable time-based analysis.
-
-
-## Deep Dive Analysis
-
-### 1. Availability by Site Type
-
-The analysis shows clear differences in availability across site types. GSM sites consistently record the lowest performance and the highest variability, while Data Center and Submarine sites remain highly stable and close to perfect availability.
-
-This suggests that radio access sites are more exposed to energy-related service disruptions than critical backbone infrastructure.
-
-### 2. Site-Level Performance Drivers
-
-Service impact is not evenly distributed across the network. A small number of sites account for most downtime, indicating that the main operational risk is concentrated rather than widespread.
-
-This means that targeted interventions on a few underperforming sites could significantly improve the overall network KPI profile.
-
-### 3. Incident Frequency vs Downtime Impact
-
-Incident count alone does not fully explain service performance. Some sites are affected by a higher number of incidents, while others experience fewer but more impactful outages.
-
-Combining Incident Count, MTTR, and Downtime provides a more complete view of operational risk.
-
-### 4. SLA Risk Areas
-
-Although overall network availability is high, not all sites meet their SLA targets. SLA breaches are mostly linked to lower-performing site types, especially radio access sites.
-
-This confirms that availability should be interpreted together with SLA Gap in order to identify the most critical performance risks.
 
 
 
