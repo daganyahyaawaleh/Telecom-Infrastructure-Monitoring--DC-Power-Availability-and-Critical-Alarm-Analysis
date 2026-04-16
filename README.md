@@ -204,7 +204,7 @@ The analysis shows that resilience to power failures varies significantly across
 - RAN sites (radio access) show lower resilience (~43%), meaning a large proportion of AC failures result in service outages  
 - Core/CO sites show higher resilience (~60%), indicating better ability to absorb power disruptions
 - This suggests that radio sites are more dependent on battery performance and are more vulnerable to energy-related service interruptions.
-- 
+  
 <img width="497" height="94" alt="image" src="https://github.com/user-attachments/assets/42ce480f-aab7-4e81-a56e-28f361dce056" />
 
 ---
@@ -256,10 +256,10 @@ Sensor data transformed into:
 
 ### 4. Event Detection
 
-MainsFail → AC status changes from 1 to 0
-MainsRestore → AC status changes from 0 to 1
-ServiceDown → DC voltage drops below 43V
-ServiceRestored → DC voltage returns above threshold
+-MainsFail → AC status changes from 1 to 0
+-MainsRestore → AC status changes from 0 to 1
+-ServiceDown → DC voltage drops below 43V
+-ServiceRestored → DC voltage returns above threshold
 
 This step converts raw signals into meaningful operational events.
 
@@ -267,9 +267,9 @@ This step converts raw signals into meaningful operational events.
 
 Service incidents are built by grouping events:
 
-Each incident starts at ServiceDown
-Ends at ServiceRestored
-Duration is calculated in hours
+-Each incident starts at ServiceDown
+-Ends at ServiceRestored
+-Duration is calculated in hours
 
 This results in an incident-level table, which is used as the primary source for downtime calculations.
 
