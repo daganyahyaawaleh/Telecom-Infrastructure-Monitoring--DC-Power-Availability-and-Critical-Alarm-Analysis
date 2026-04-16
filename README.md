@@ -2,7 +2,7 @@
 
 ### Operational insights into energy-driven service availability and power-related incidents
 
-This project presents a Power BI dashboard designed to monitor telecom site energy performance and service availability.
+This project presents a Power BI dashboard designed to monitor telecom site energy performance and service availability of only 3 Month of data ( January, February and March).
 
 
 
