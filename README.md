@@ -104,7 +104,7 @@ However, performance is not uniform:
 While the network is globally stable, **availability differences across site types reveal structural weaknesses**, with RAN infrastructure being the most impacted.
 This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
 
----
+
 
 
 <img width="1099" height="409" alt="image" src="https://github.com/user-attachments/assets/335b1d6e-348f-4dae-8bcb-ee01dc054808" />
@@ -113,10 +113,9 @@ This analysis focuses on energy-driven availability, highlighting the impact of 
 
 
 
-GSM sites contribute the most to service downtime.
-Voltage drops below the critical threshold (43V) directly correlate with service outages.
-Some site types do not meet their SLA targets despite high overall availability.
-Overall Availability remains close to SLA targets.
+- GSM sites contribute the most to service downtime.
+- Some site types do not meet their SLA targets despite high overall availability.
+- Overall Availability remains close to SLA targets.
 
 ---
 ## Deep Dive Analysis
