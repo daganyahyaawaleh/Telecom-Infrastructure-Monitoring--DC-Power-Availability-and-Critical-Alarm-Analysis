@@ -20,14 +20,11 @@ The SQL queries used to prepare, transform, and analyze the data are organized a
 - Data cleaning and preparation queries can be found [here](SQL_Scripts/01_create_dim_site.sql)
 - Sensor-to-site mapping  can be found [here](.SQL_Scripts/02_mapping_clean.sql)
 - Time-series structuring and pivot logic can be found [here](.SQL_Scripts/03_sensor_data_final.sql)
-- Event detection (AC failures and service events) can be found [here](SQL_Scripts/04_alarms_Data or Event Detection.sql)
-- Service incident construction and downtime calculation can be found [here](.SQL_Scripts/05_service_incidents.sql)
+- Event detection (AC failures and service events) can be found [here](SQL_Scripts/04_event_detection.sql)
+- Service incident construction  [here](.SQL_Scripts/05_service_incidents.sql)
 
-These queries demonstrate the end-to-end transformation from raw IoT sensor data to actionable business insights.
 
 ## key Metrics
-
-The primary metric of this project is **Service Availability (%)**.
 
 - **Service Availability (North Star)** – Focus on the overall percentage of time telecom services remain operational, based on energy conditions (DC voltage threshold). This is the primary indicator of network reliability and user experience.
 
@@ -38,24 +35,13 @@ The primary metric of this project is **Service Availability (%)**.
 - **Network Stability (MTBF)** – Measuring the time between failures to assess the overall stability and robustness of the infrastructure.
 
 - **Downtime Impact** – Analyzing total downtime duration across sites and site types to identify the most critical areas affecting service continuity
-- - **Site-Type Performance** – Comparing availability and downtime across different telecom site types (RAN, CO, Data Center, Submarine) to identify structural performance differences.
+- **Site-Type Performance** – Comparing availability and downtime across different telecom site types (RAN, CO, Data Center, Submarine) to identify structural performance differences.
 
 ---
 
 ##  Real-World Context
 
-This project is inspired by real telecom monitoring operations.
-
-In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
-
-These sensors measure:
-- DC Voltage (-48V systems)
-- Temperature
-- Generator status etc..
-
-
-### Data Scale (Production)
-
+This project is inspired by real telecom monitoring operations.In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
 - ~1.5 million rows per month ans still growing
 - 20+ million rows historically  
 
@@ -84,11 +70,6 @@ This results in approximately **~388,800 time-series records**.
 
 - **Low Voltage Disconnect (LVD)** → service considered down when DC voltage < 43V  
 - **Floating Voltage** → normal system voltage ~53–54V  
-
-Not all AC failures lead to service outages, thanks to battery backup systems.
-
-
-
 ---
 
 
@@ -121,7 +102,7 @@ However, performance is not uniform:
 - **CO sites show stable performance**, with slight improvement over time
 
 While the network is globally stable, **availability differences across site types reveal structural weaknesses**, with RAN infrastructure being the most impacted.
-- This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
+This analysis focuses on energy-driven availability, highlighting the impact of power conditions on service performance.
 
 ---
 
@@ -217,7 +198,7 @@ The analysis shows that resilience to power failures varies significantly across
 - A small number of sites drive most service impact, indicating performance concentration rather than widespread issues  
 - Critical sites (Data Center, Submarine) are highly stable, with only short transient outages, reflecting strong infrastructure resilience  
 - Not all SLA breaches are critical — some are caused by strict SLA thresholds rather than significant downtime
-- 
+  
  ## Recommendations
 
 - **Prioritize RAN sites** for performance improvement, as they represent the main source of downtime  
@@ -312,7 +293,7 @@ Data Analyst specialized in telecom energy monitoring and performance analysis.
 - Integration of real telecom datasets  
 - Battery autonomy analysis  
 
----
+
 
 
 
