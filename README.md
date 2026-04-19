@@ -110,11 +110,8 @@ Conclusion: While the network is globally stable, the structural weaknesses in R
 
 The analysis reveals significant disparities in resilience across different infrastructure categories.
 
-**MainsFail**: AC power interruptions (grid failure events).
 
-**Incident**: Service outages occurring when DC voltage drops below the operational threshold (43V).
-
-<img width="901" height="331" alt="image" src="https://github.com/user-attachments/assets/2f85d4f6-690e-4d88-ab14-39e19416e40c" />
+<img width="955" height="351" alt="image" src="https://github.com/user-attachments/assets/e8f3e376-813b-4b81-be02-0df910a02a2b" />
 
 
 **A. RAN Sites (Radio Access Network)**
@@ -138,7 +135,8 @@ Near-perfect availability **(99.99% - 100%)**.
 
 SLA Sensitivity: Despite minimal downtime (5min), these sites occasionally fall below SLA targets due to extremely strict availability thresholds.
 
-<img width="874" height="174" alt="image" src="https://github.com/user-attachments/assets/8824d091-4ea7-49a0-af75-c4240d99aa9d" />
+<img width="890" height="231" alt="image" src="https://github.com/user-attachments/assets/a336b745-83e0-42ff-b84d-aa33fddf8283" />
+
 
 This indicates that SLA breaches are not only driven by downtime volume, but also by strict SLA thresholds on critical sites
 
