@@ -2,6 +2,11 @@
 
 ### Operational insights into energy-driven service availability and power-related incidents
 
+## 📊 Dashboard Overview
+
+<img width="1314" height="718" alt="image" src="https://github.com/user-attachments/assets/a099d1d0-4ebd-4c74-877b-88204e2b2179" />
+
+
 ## Project Overview
 This project features a Power BI dashboard designed to monitor telecom energy performance and service availability. The analysis is based on three months of telemetry data (January, February, and March)
 
