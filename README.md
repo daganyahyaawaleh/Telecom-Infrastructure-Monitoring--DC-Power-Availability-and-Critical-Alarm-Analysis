@@ -231,21 +231,22 @@ This results in an incident-level table, which is used as the primary source for
 
 All business metrics are derived from the incident and time-series data:
 
-Availability (%) → based on downtime vs observed time
-MTTR → average incident duration
-MTBF → time between incidents
-Incident Count → number of outages
+- Availability (%) → based on downtime vs observed time
+- MTTR → average incident duration
+- MTBF → time between incidents
+- Incident Count → number of outages
 
 
 ### Limitations
 
-Dataset: Synthetic data modeled on real-world telecom patterns.
-Constraints: Battery Capacity (Ah), State of Health (SOH), andGenerator behavior is not modeled
-These limitations simplify the analysis but do not affect the overall insights.
+- Dataset: Synthetic data modeled on real-world telecom patterns.
+- Constraints: Battery Capacity (Ah), State of Health (SOH), andGenerator behavior is not modeled
+- These limitations simplify the analysis but do not affect the overall insights.
 
 ### Tech Stack
-Database: SQL Server (SSMS) - Data Transformation & Modeling.
-Analytics: Power BI - Visualization & Dashboarding.
+- Database: SQL Server (SSMS)
+- Data Transformation & Modeling.
+- Analytics: Power BI - Visualization & Dashboarding.
 
 ---
 
