@@ -215,10 +215,10 @@ Sensor data transformed into:
 
 ### 4. Event Detection
 
--MainsFail → AC status changes from 1 to 0
--MainsRestore → AC status changes from 0 to 1
--ServiceDown → DC voltage drops below 43V
--ServiceRestored → DC voltage returns above threshold
+- MainsFail → AC status changes from 1 to 0
+- MainsRestore → AC status changes from 0 to 1
+- ServiceDown → DC voltage drops below 43V
+- ServiceRestored → DC voltage returns above threshold
 
 This step converts raw signals into meaningful operational events.
 
@@ -226,9 +226,9 @@ This step converts raw signals into meaningful operational events.
 
 Service incidents are built by grouping events:
 
--Each incident starts at ServiceDown
--Ends at ServiceRestored
--Duration is calculated in hours
+- Each incident starts at ServiceDown
+ -Ends at ServiceRestored
+- Duration is calculated in hours
 
 This results in an incident-level table, which is used as the primary source for downtime calculations.
 
