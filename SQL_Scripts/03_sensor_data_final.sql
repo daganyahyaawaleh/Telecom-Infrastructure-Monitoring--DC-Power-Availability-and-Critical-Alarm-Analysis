@@ -1,6 +1,4 @@
--- =====================================================
--- Purpose: Clean raw data and pivot to analytical format
--- =====================================================
+
 
 WITH CleanData AS (
     SELECT 
