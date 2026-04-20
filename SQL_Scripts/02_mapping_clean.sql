@@ -1,6 +1,3 @@
--- =====================================================
--- Purpose: Clean sensor-site mapping (SCD Type 2 ready)
--- =====================================================
 
 SELECT 
     CAST(sensor_id AS INT) AS sensor_id,
