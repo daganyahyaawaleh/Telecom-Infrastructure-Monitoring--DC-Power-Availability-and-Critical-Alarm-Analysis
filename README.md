@@ -4,7 +4,8 @@
 
 ## 📊 Dashboard Overview
 
-<img width="1314" height="718" alt="image" src="https://github.com/user-attachments/assets/a099d1d0-4ebd-4c74-877b-88204e2b2179" />
+<img width="1421" height="805" alt="image" src="https://github.com/user-attachments/assets/d5ba0d80-286e-43d6-8643-1b487d614d45" />
+
 
 
 ## Project Overview
