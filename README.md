@@ -230,7 +230,7 @@ This step converts raw signals into meaningful operational events.
 Service incidents are built by grouping events:
 
 - Each incident starts at ServiceDown
- -Ends at ServiceRestored
+- Ends at ServiceRestored
 - Duration is calculated in hours
 
 This results in an incident-level table, which is used as the primary source for downtime calculations.
@@ -248,7 +248,7 @@ All business metrics are derived from the incident and time-series data:
 ### Limitations
 
 - Dataset: Synthetic data modeled on real-world telecom patterns.
-- Constraints: Battery Capacity (Ah), State of Health (SOH), andGenerator behavior is not modeled
+- Constraints: Battery Capacity (Ah), State of Health (SOH), and Generator behavior is not modeled
 - These limitations simplify the analysis but do not affect the overall insights.
 
 ### Tech Stack
