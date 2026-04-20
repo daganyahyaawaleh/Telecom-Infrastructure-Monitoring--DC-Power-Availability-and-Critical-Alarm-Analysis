@@ -1,7 +1,4 @@
--- =====================================================
--- File: 01_create_dim_site.sql
--- Purpose: Create site dimension table
--- =====================================================
+
 
 SELECT DISTINCT
     site_id
