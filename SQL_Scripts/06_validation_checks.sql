@@ -1,6 +1,3 @@
--- =====================================================
--- Purpose: Validate relationship between AC failures and service outages
--- =====================================================
 
 SELECT 
     EventType,
