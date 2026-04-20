@@ -1,6 +1,3 @@
--- =====================================================
--- Purpose: Build service incident table
--- =====================================================
 
 WITH ServiceDownEvents AS (
     SELECT
