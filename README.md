@@ -9,8 +9,9 @@
 
 
 ## Project Overview
-This project features a Power BI dashboard designed to monitor telecom energy performance and service availability. The analysis is based on three months of telemetry data (January, February, and March)
-
+This project features a Power BI dashboard designed to monitor telecom energy performance and service availability. The analysis is based on three months of telemetry data (January, February, and March).  
+This dashboard monitors telecom site availability using IoT sensor data.
+It correlates power failures, DC voltage drops to identify root causes of downtime.
 
 ##  Project Background
 
@@ -27,7 +28,7 @@ The data preparation, transformation, and analysis were handled via a structured
 - Dim Site and data cleaning: Standardizing site metadata and attributes.[here](SQL_Scripts/01_create_dim_site.sql)
 - Sensor mapping : Linking raw sensor telemetry to specific site IDs.can be found [here](.SQL_Scripts/02_mapping_clean.sql)
 - Time-series structuring and pivot logic can be found [here](.SQL_Scripts/03_sensor_data_final.sql)
-- Event detection (AC failures and DC Voltage drop) can be found [here](SQL_Scripts/04_event_detection.sql)
+- Event detection ( Power failures and DC Voltage drop) can be found [here](SQL_Scripts/04_event_detection.sql)
 - Service incident construction : Consolidating raw events into meaningful Service Incidents (Downtime periods).  [here](.SQL_Scripts/05_service_incidents.sql)
 
 
