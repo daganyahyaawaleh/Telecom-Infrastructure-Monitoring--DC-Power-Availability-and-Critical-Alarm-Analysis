@@ -1,4 +1,4 @@
-#  Telecom Network Availability & Incident Analysis
+#  Telecom Energy & Service Availability Analytics
 
 ### Operational insights into energy-driven service availability and power-related incidents
 
@@ -9,20 +9,43 @@
 
 
 ## Project Overview
-This project features a Power BI dashboard designed to monitor telecom energy performance and service availability. The analysis is based on three months of telemetry data (January, February, and March).  
-This dashboard monitors telecom site availability using IoT sensor data.
-It correlates power failures, DC voltage drops to identify root causes of downtime.
+This project presents a Power BI dashboard designed to analyze telecom network reliability through energy and operational telemetry data.
 
-##  Project Background
+The analysis focuses on how power instability impacts service availability by correlating:
 
-The reliability of telecom networks heavily depends on the stability of their power systems. In many environments, telecom sites rely on rectifiers to convert AC grid power into stable DC output, ensuring service continuity making it essential to understand the relationship between power events and service outages.
+AC power failures
+DC voltage degradation
+Service interruption events
+Downtime duration
+SLA performance
 
-In real-world operations, a site does not immediately go down during a power failure. Instead, battery systems sustain the service until a critical voltage threshold is reached. Generator backup systems were not explicitly modeled. Critical sites(e.g., Data Centers, Submarine) are assumed to have generator support.
+The dashboard transforms raw IoT telemetry into operational reliability insights to support infrastructure monitoring and incident analysis.
 
-This project analyzes how energy conditions impact **service availability, downtime, and network performance**.
-The objective is to evaluate service availability, detect incidents, and provide actionable insights into network performance.
+## Business Problem 
+
+Telecom network continuity heavily depends on stable DC power systems. During grid failures, battery systems temporarily sustain operations until critical voltage thresholds are reached.
+
+This project models how energy instability affects service continuity and network performance by simulating real-world telecom operational behavior, including:
+
+AC power outages
+Battery discharge behavior
+Voltage instability
+Service downtime events
+
+The objective is to identify infrastructure vulnerabilities, measure operational resilience, and provide actionable reliability insights.
 
 ## Data Engineering & SQL Pipeline
+
+| Stage                   | Objective                                          |
+| ----------------------- | -------------------------------------------------- |
+| Site Standardization    | Clean and normalize site metadata                  |
+| Sensor Mapping          | Associate telemetry with site history (SCD Type 2) |
+| Time-Series Structuring | Pivot raw telemetry into analytical format         |
+| Event Detection         | Detect power failures and voltage anomalies        |
+| Incident Construction   | Build service downtime intervals                   |
+| KPI Layer               | Calculate SLA and reliability metrics              |
+
+
 The data preparation, transformation, and analysis were handled via a structured SQL pipeline
 
 - Dim Site and data cleaning: Standardizing site metadata and attributes.[here](SQL_Scripts/01_create_dim_site.sql)
@@ -31,7 +54,21 @@ The data preparation, transformation, and analysis were handled via a structured
 - Event detection ( Power failures and DC Voltage drop) can be found [here](SQL_Scripts/04_event_detection.sql)
 - Service incident construction : Consolidating raw events into meaningful Service Incidents (Downtime periods).  [here](.SQL_Scripts/05_service_incidents.sql)
 
-
+```text
+IoT Energy Sensors
+        ↓
+Raw Telemetry Collection
+        ↓
+SQL Data Engineering Pipeline
+        ↓
+Power Event Detection
+        ↓
+Service Incident Construction
+        ↓
+KPI & SLA Modeling
+        ↓
+Operational Power BI Dashboard
+```
 ## key Metrics
 
 - **Service Availability (North Star)** – The percentage of time services remain operational based on the DC voltage threshold. This is the primary indicator of network reliability.
@@ -45,14 +82,16 @@ The data preparation, transformation, and analysis were handled via a structured
 - **Downtime Impact** – Quantifying total downtime across various site types sites and site types to identify the most critical areas affecting service continuity
 - **Site-Type Performance** – Comparing availability and downtime across different categories : : RAN (Radio Access Network), CO (Central Office), Data Centers, and Submarine Stations.
 
-##  Real-World Context
+##  Operational Relevance
 
-This project is inspired by real telecom monitoring operations.In my current role, I manage energy and monitoring data from over 150 telecom sites equipped with IoT sensors (HWg via SensDesk).
-- ~1.5 million rows per month ans still growing
-- 20+ million rows historically  
+This project is inspired by real telecom monitoring operations involving more than 150 telecom sites equipped with IoT energy sensors.
 
-Although this project uses synthetic data, it is designed to closely replicate real operational patterns.
+Operational environments typically generate:
 
+~1.5 million telemetry rows per month
+20+ million historical records
+
+Although the dataset used in this project is synthetic, it was designed to realistically reproduce operational telecom power behaviors and incident patterns.
 ---
 
 ## Dataset Description
@@ -253,9 +292,14 @@ All business metrics are derived from the incident and time-series data:
 - These limitations simplify the analysis but do not affect the overall insights.
 
 ### Tech Stack
-- Database: SQL Server (SSMS)
-- Data Transformation & Modeling.
-- Analytics: Power BI - Visualization & Dashboarding.
+| Layer               | Technologies                     |
+| ------------------- | -------------------------------- |
+| Database            | SQL Server (SSMS)                |
+| Data Transformation | SQL                              |
+| Data Modeling       | Star Schema / Fact Constellation |
+| Visualization       | Power BI                         |
+| Monitoring Context  | Telecom Energy & IoT Telemetry   |
+
 
 ---
 
@@ -266,7 +310,9 @@ All business metrics are derived from the incident and time-series data:
 - Battery autonomy analysis  
 
 ---
-**Author:** Data Analyst specialized in Telecom Energy Monitoring.
+**Author:** Data Analyst focused on operational analytics, telecom energy monitoring, and service reliability intelligence.
+
+Specialized in transforming IoT telemetry and infrastructure data into actionable operational insights.
 
 
 
