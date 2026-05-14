@@ -3,8 +3,9 @@
 ### Operational insights into energy-driven service availability and power-related incidents
 
 ## 📊 Dashboard Overview
+This dashboard monitors telecom site availability using IoT sensor data. It correlates power failures, DC voltage drops to identify root causes of downtime.
 
-<img width="1421" height="805" alt="image" src="https://github.com/user-attachments/assets/d5ba0d80-286e-43d6-8643-1b487d614d45" />
+<img width="1283" height="724" alt="image" src="https://github.com/user-attachments/assets/743c749e-3107-4bda-b0bb-60ead66b78a5" />
 
 
 
@@ -90,8 +91,9 @@ Operational environments typically generate:
 
 ~1.5 million telemetry rows per month
 20+ million historical records
-
 Although the dataset used in this project is synthetic, it was designed to realistically reproduce operational telecom power behaviors and incident patterns.
+
+
 ---
 
 ## Dataset Description
@@ -148,68 +150,153 @@ Conclusion: While the network is globally stable, the structural weaknesses in R
 
 <img width="1230" height="468" alt="image" src="https://github.com/user-attachments/assets/58e4a20d-bb72-44c8-9fe7-3d8f8d933ae7" />
 
+### Key Operational Insights
 
+RAN infrastructure contributes the majority of service downtime exposure
+Critical infrastructure maintains near-perfect availability due to stronger redundancy
+Incident frequency alone is not a sufficient reliability indicator — outage duration (MTTR) significantly impacts availability
+SLA breaches on critical sites may result from stricter availability thresholds rather than severe outages
+Network resilience varies significantly across infrastructure categories
 
 
 ---
 ## Deep Dive Analysis
 
-### 1 Site-Level Performance & Resilience 
+### 1. Infrastructure Performance & Resilience
 
-The analysis reveals significant disparities in resilience across different infrastructure categories.
-
-
-<img width="955" height="351" alt="image" src="https://github.com/user-attachments/assets/e8f3e376-813b-4b81-be02-0df910a02a2b" />
+The analysis reveals significant differences in resilience across telecom infrastructure categories, highlighting how power stability directly impacts service continuity.
 
 
-**A. RAN Sites (Radio Access Network)**
-Sites SITE_GSM_01 and SITE_GSM_02 account for the majority of network downtime (1.08h and 0.83h).
+### RAN Sites (Radio Access Network)
+RAN Vulnerability (Radio Access Network)
 
-They exhibit the highest incident frequency (4 incidents each).
+RAN infrastructure represents the primary source of service degradation across the network.
 
-Insight: Differences in recovery times suggest that performance is driven not only by power stability but also by battery health and site load conditions.
-This indicates that performance degradation is not only driven by failure frequency, but also by recovery efficiency.
+### Key Findings
+- SITE_RAN_01 and SITE_RAN_02 generate the majority of downtime exposure.
+- RAN sites show the highest incident frequency across all infrastructure categories.
+- Recovery times vary significantly between sites, despite similar power failure patterns.
+
+### Operational Insight
+
+This indicates that network performance degradation is influenced not only by power failures, but also by:
+
+- Battery health conditions
+- Site energy autonomy
+- Load distribution
+- Recovery efficiency (MTTR)
+
+RAN sites demonstrate lower resilience to grid instability compared to core infrastructure.
 
 
-**B. CO Sites (Central Office)**
-Moderate downtime (0.42h) with high Resilience (~60%).
+### Central Office (CO) Stability
 
-Insight: CO sites demonstrate a superior ability to "absorb" AC failures without impacting service, indicating robust backup power sizing compared to RAN sites.
+Central Office sites maintain moderate downtime levels while demonstrating stronger operational resilience.Moderate downtime (0.42h) with high Resilience (~60%).
+
+### Key Findings
+- Lower downtime impact compared to RAN sites
+- More stable recovery performance
+- Improved service continuity during AC failures
+
+### Operational Insight
+
+CO infrastructure appears better equipped to absorb temporary power instability without triggering service interruption events, suggesting:
+
+- Better backup power sizing
+- Improved energy redundancy
+- More stable operational environments
 
 
-**C. Critical Infrastructure (Data Center & Submarine)**
 
-Near-perfect availability **(99.99% - 100%)**.
 
-SLA Sensitivity: Despite minimal downtime (5min), these sites occasionally fall below SLA targets due to extremely strict availability thresholds.
 
-<img width="890" height="231" alt="image" src="https://github.com/user-attachments/assets/a336b745-83e0-42ff-b84d-aa33fddf8283" />
+### Critical Infrastructure Resilience (Data Center & Submarine)**
+
+Critical infrastructure maintains near-perfect availability across the observed period.
+
+### Key Findings
+- Availability remains between 99.99% and 100%
+- Downtime events are extremely short-lived
+- SLA breaches occasionally occur despite minimal downtime
+
+### Operational Insight
+
+This demonstrates that SLA violations are not always driven by major outages. In highly critical environments, extremely strict SLA thresholds can generate breaches from even minor transient interruptions.
+
+The strong resilience of these sites reflects:
+
+- Higher infrastructure redundancy
+- Enhanced backup power strategies
+- More robust operational protection mechanisms
 
 
 This indicates that SLA breaches are not only driven by downtime volume, but also by strict SLA thresholds on critical sites
 
-### 2. Downtime Distribution
+### 2. Downtime Analysis
 
-- **GSM sites contribute the majority of downtime**.
-- Other site types show minimal impact.
-- This indicates uneven infrastructure resilience.
+Downtime exposure is unevenly distributed across the infrastructure landscape.
+
+### Key Findings
+- GSM/RAN infrastructure contributes the majority of total downtime
+- Critical infrastructure contributes minimal operational impact
+- Service degradation is concentrated within a small subset of sites
+
+### Operational Insight
+
+This concentration effect indicates that network reliability improvements should prioritize targeted infrastructure optimization rather than broad network-wide interventions.
+
+A limited number of underperforming sites drive a disproportionate share of operational impact.
   
-  <img width="623" height="251" alt="image" src="https://github.com/user-attachments/assets/fc5ba5e5-c5c5-44dc-a73d-859b8317cddc" />
-
----
-
-### 3. Incident Frequency vs Downtime Impact
-
-Incident count alone is an incomplete metric. This project combines Incident Count, MTTR (Mean Time to Repair), and Total Downtime
-
-**13 service incidents** were detected in total.
-
-Most incidents are short-lived, suggesting that failures are generally well-contained.
-
-Resilience Gap: RAN sites show only ~43% resilience, making them highly vulnerable to grid instability compared to Core sites.
 
 
-<img width="497" height="94" alt="image" src="https://github.com/user-attachments/assets/42ce480f-aab7-4e81-a56e-28f361dce056" />
+### 3.Incident Frequency vs Operational Impact
+
+Incident frequency alone is not sufficient to evaluate infrastructure reliability.
+
+This analysis combines:
+
+- Incident Count
+- MTTR (Mean Time To Repair)
+- Total Downtime
+- Availability Impact
+
+### Key Findings
+- 13 service incidents detected during the observed period
+- Most incidents remain short-lived
+- RAN sites demonstrate significantly lower resilience compared to core infrastructure
+
+### Operational Insight
+
+Availability degradation is strongly influenced by outage duration rather than only failure occurrence.
+
+This highlights the importance of:
+
+- Faster recovery processes
+- Energy system optimization
+- Battery autonomy improvements
+- Operational response efficiency
+
+Reducing MTTR has a direct and measurable impact on SLA performance and service continuity.
+
+### Business Value
+
+This project demonstrates how operational telemetry and infrastructure monitoring data can be transformed into actionable reliability intelligence.
+
+The analytical framework supports:
+
+- Identification of high-risk infrastructure segments
+- SLA compliance monitoring and optimization
+- Downtime reduction strategies
+- Infrastructure investment prioritization
+- Early detection of operational vulnerabilities
+- Energy resilience assessment
+- Data-driven maintenance planning
+
+By correlating power events, voltage behavior, and service interruptions, this solution enables a proactive operational approach instead of reactive incident management.
+
+The project also illustrates how IoT telemetry can be leveraged to support operational decision-making in telecom environments through scalable SQL engineering and business-oriented analytics.Business Value
+
+
 
 ---
 
