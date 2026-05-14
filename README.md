@@ -1,4 +1,4 @@
-<img width="1283" height="724" alt="image" src="https://github.com/user-attachments/assets/84e548c9-5445-4dac-835e-393c927eb018" />#  Telecom Energy & Service Availability Analytics
+#  Telecom Energy & Service Availability Analytics
 
 ### Operational insights into energy-driven service availability and power-related incidents
 
