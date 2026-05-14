@@ -1,4 +1,4 @@
-#  Telecom Energy & Service Availability Analytics
+<img width="1283" height="724" alt="image" src="https://github.com/user-attachments/assets/84e548c9-5445-4dac-835e-393c927eb018" />#  Telecom Energy & Service Availability Analytics
 
 ### Operational insights into energy-driven service availability and power-related incidents
 
@@ -14,11 +14,11 @@ This project presents a Power BI dashboard designed to analyze telecom network r
 
 The analysis focuses on how power instability impacts service availability by correlating:
 
-AC power failures
-DC voltage degradation
-Service interruption events
-Downtime duration
-SLA performance
+- AC power failures
+- DC voltage degradation
+- Service interruption events
+- Downtime duration
+- SLA performance
 
 The dashboard transforms raw IoT telemetry into operational reliability insights to support infrastructure monitoring and incident analysis.
 
@@ -28,10 +28,10 @@ Telecom network continuity heavily depends on stable DC power systems. During gr
 
 This project models how energy instability affects service continuity and network performance by simulating real-world telecom operational behavior, including:
 
-AC power outages
-Battery discharge behavior
-Voltage instability
-Service downtime events
+- AC power outages
+- Battery discharge behavior
+- Voltage instability
+- Service downtime events
 
 The objective is to identify infrastructure vulnerabilities, measure operational resilience, and provide actionable reliability insights.
 
